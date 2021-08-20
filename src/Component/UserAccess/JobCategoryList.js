@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import DataService from "../Services/WebUserJobService";
+import DataService from "../../Services/WebUserJobService";
 import { Link } from "react-router-dom";
 
   export default class JobCategoryList extends Component {

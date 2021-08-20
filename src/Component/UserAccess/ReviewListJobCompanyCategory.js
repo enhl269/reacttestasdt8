@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import DataService from "../Services/WebAdminService";
+import DataService1 from "../../Services/WebUserReviewService";
 import { Link } from "react-router-dom";
 
-  export default class ApprovedReviewList extends Component {
+  export default class ReviewListJobCompanyCategory extends Component {
     constructor(props) {
       super(props);
-      this.rejectReview = this.rejectReview.bind(this);
+     
       
       this.state = {
         reviews: []
@@ -13,25 +13,11 @@ import { Link } from "react-router-dom";
     }
 
   componentDidMount() {
-    DataService.getApprovedReviews().then((res) =>{
+    DataService1.getReviewByJobandCompany(this.props.match.params.id,this.props.match.params.id2).then((res) =>{
       this.setState({reviews:res.data});
     });
   }
 
-  rejectReview(id){
-
-    DataService.updateReview(
-      id,"Blocked"            
-  )
-      .then(response => {
-          console.log(response.data);
-          //this.props.history.push('ApprovedReviewList')
-          window.location.reload();
-      })
-      .catch(e => {
-          console.log(e);
-      });
-  }
 
   render(){
     const{reviews} = this.state;
@@ -42,24 +28,25 @@ import { Link } from "react-router-dom";
           <table className = "table table-striped table-bordered">
             <thead>
               <tr>
-                <th>Review ID</th>
+                
                 <th>Review Stars</th>
                 <th>Review Description</th>
                 <th>Review Date</th>
-                <th>Review User</th>
-                <th>Review Actions</th>
+                <th>Company</th>
+                <th>Job Title</th>
+        
               </tr>
             </thead>
             <tbody>
               {
                 this.state.reviews.map(review => 
-                <tr key = {review.id}>
-                  <td>{review.id}</td>
+                <tr key = {review.reviewDescription}>
                   <td>{review.reviewstars}</td>
                   <td>{review.reviewDescription}</td>
                   <td>{review.reviewDate}</td>
-                  <td>{review.reviewStatus}</td>
-                  <td><button className="btn btn-primary" type = "button" onClick = {(e)=>this.rejectReview(review.id)}>Reject</button></td>
+                  <td>{review.companyName}</td>
+                  <td>{review.jobTitle}</td>
+                  
                 </tr>  
                   )
               }

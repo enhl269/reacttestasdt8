@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import DataService from "../Services/WebAdminService";
+import DataService from "../../Services/WebAdminService";
 import { Link } from "react-router-dom";
 
-  export default class RejectedReviewList extends Component {
+  export default class ApprovedReviewList extends Component {
     constructor(props) {
       super(props);
-      this.approveReview = this.approveReview.bind(this);
+      this.rejectReview = this.rejectReview.bind(this);
       
       this.state = {
         reviews: []
@@ -13,19 +13,19 @@ import { Link } from "react-router-dom";
     }
 
   componentDidMount() {
-    DataService.getBlockedReviews().then((res) =>{
+    DataService.getApprovedReviews().then((res) =>{
       this.setState({reviews:res.data});
     });
   }
 
-  approveReview(id){
+  rejectReview(id){
 
     DataService.updateReview(
-      id,"Approved"            
+      id,"Blocked"            
   )
       .then(response => {
           console.log(response.data);
-          //this.props.history.push('RejectedReviewList')
+          //this.props.history.push('ApprovedReviewList')
           window.location.reload();
       })
       .catch(e => {
@@ -37,7 +37,7 @@ import { Link } from "react-router-dom";
     const{reviews} = this.state;
     return(
       <div>
-        <h2 className="text-center">Rejected Review List</h2>
+        <h2 className="text-center">Approved Review List</h2>
         <div className="row">
           <table className = "table table-striped table-bordered">
             <thead>
@@ -59,7 +59,7 @@ import { Link } from "react-router-dom";
                   <td>{review.reviewDescription}</td>
                   <td>{review.reviewDate}</td>
                   <td>{review.reviewStatus}</td>
-                  <td><button className="btn btn-primary" type = "button" onClick = {(e)=>this.approveReview(review.id)}>Approve</button></td>
+                  <td><button className="btn btn-primary" type = "button" onClick = {(e)=>this.rejectReview(review.id)}>Reject</button></td>
                 </tr>  
                   )
               }

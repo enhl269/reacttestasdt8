@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import DataService from "../Services/WebAdminService";
+import DataService from "../../Services/WebAdminService";
 import { Link } from "react-router-dom";
 
-  export default class RejectedApplicantList extends Component {
+  export default class ApprovedApplicantList extends Component {
     constructor(props) {
       super(props);
-      this.approveApplicant = this.approveApplicant.bind(this);
+      this.rejectApplicant = this.rejectApplicant.bind(this);
       
       this.state = {
         applicants: []
@@ -13,15 +13,15 @@ import { Link } from "react-router-dom";
     }
 
   componentDidMount() {
-    DataService.getBlockedApplicants().then((res) =>{
+    DataService.getApprovedApplicants().then((res) =>{
       this.setState({applicants:res.data});
     });
   }
 
-  approveApplicant(id){
+  rejectApplicant(id){
 
     DataService.updateApplicant(
-      id,"Approved"            
+      id,"Blocked"            
   )
       .then(response => {
           console.log(response.data);
@@ -37,7 +37,7 @@ import { Link } from "react-router-dom";
     const{reviews} = this.state;
     return(
       <div>
-        <h2 className="text-center">Blocked Applicant List</h2>
+        <h2 className="text-center">Approved Applicant List</h2>
         <div className="row">
           <table className = "table table-striped table-bordered">
             <thead>
@@ -60,7 +60,7 @@ import { Link } from "react-router-dom";
                       <div>Review Description: {r.reviewDescription}</div>
                       </div>)}
                       </td>
-                  <td><button className="btn btn-primary" type = "button" onClick = {(e)=>this.approveApplicant(user.id)}>Approve</button></td>
+                  <td><button className="btn btn-primary" type = "button" onClick = {(e)=>this.rejectApplicant(user.id)}>Block</button></td>
                 </tr>  
                   )
               }

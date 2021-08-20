@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import DataService from "../Services/WebUserJobService";
+import DataService from "../../Services/WebUserJobService";
 import { Link } from "react-router-dom";
 
-  export default class AllBookmarkJobList extends Component {
+  export default class AllViewedJobList extends Component {
     constructor(props) {
       super(props);
       
@@ -12,7 +12,7 @@ import { Link } from "react-router-dom";
     }
 
   componentDidMount() {
-    DataService.getBookmarkJobsList().then((res) =>{
+    DataService.getViewedJobsList().then((res) =>{
       this.setState({jobs:res.data});
     });
   }
@@ -21,7 +21,7 @@ import { Link } from "react-router-dom";
     const{jobs} = this.state;
     return(
       <div>
-        <h2 className="text-center">Bookmarked Jobs</h2>
+        <h2 className="text-center">Viewed Jobs</h2>
         <div className="row">
           <table className = "table table-striped table-bordered">
             <thead>
@@ -35,8 +35,8 @@ import { Link } from "react-router-dom";
                 <th>Job Position URL</th>
                 <th>Company Name</th>
                 <th>Company Star Rating</th>
-                <th>Bookmark Date</th>
-                <th>View Reviews</th>
+                <th>Viewed Job Date</th>
+                <th>Reviews</th>
               </tr>
             </thead>
             <tbody>
@@ -52,7 +52,7 @@ import { Link } from "react-router-dom";
                   <td>{job.jobPositionURL}</td>
                   <td>{job.companyname}</td>
                   <td>{job.companystarRating}</td>
-                  <td>{job.bookmarkDate}</td>
+                  <td>{job.dateViewed}</td>
                   <td><Link to={"/s/" + job.jobTitle + "/" + job.companyname}>Click to View Reviews</Link></td>
                 </tr>  
                   )
